@@ -16,14 +16,13 @@ class App extends React.Component {
   };
 
   handleSelectChange = (e) => {
-    const options = e.target.options;
-    const selected = [];
-    for (let option of options) {
-      if (option.selected) {
-        selected.push(option.value);
-      }
+    const selectedOptions = e.target.selectedOptions;
+    let types = [];
+    for (let option of selectedOptions) {
+      types.push(option.value);
     }
-    this.setState({ types: selected });
+
+    this.setState({ types });
   };
 
   sum = (nums) => {
