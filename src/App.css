@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.App input,
+.App select,
+.App button {
+  margin: 1rem auto;
+  text-align: center;
+  display: block;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

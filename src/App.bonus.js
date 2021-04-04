@@ -6,8 +6,8 @@ class App extends React.Component {
     super();
     this.state = {
       input: "",
-      type: "",
-      result: "",
+      types: [],
+      results: [],
     };
   }
 
@@ -16,7 +16,14 @@ class App extends React.Component {
   };
 
   handleSelectChange = (e) => {
-    this.setState({ type: e.target.value });
+    const options = e.target.options;
+    const selected = [];
+    for (let option of options) {
+      if (option.selected) {
+        selected.push(option.value);
+      }
+    }
+    this.setState({ types: selected });
   };
 
   sum = (nums) => {
@@ -43,31 +50,39 @@ class App extends React.Component {
     return sortedKeys[0];
   };
 
+  getResult = (nums, type) => {
+    switch (type) {
+      case "sum":
+        return `Sum: ${this.sum(nums)}`;
+      case "average":
+        return `Average: ${this.average(nums)}`;
+      case "mode":
+        return `Mode: ${this.mode(nums)}`;
+      default:
+        return "";
+    }
+  };
+
+  getResults = (nums, types) => {
+    let results = [];
+    for (let type of types) {
+      results.push(this.getResult(nums, type));
+    }
+    return results;
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
-    const { input, type } = this.state;
+    const { input, types } = this.state;
     const nums = this.parseInput(input);
-    let result;
+    let results;
 
     if (!input || !this.validateNums(nums)) {
-      result = "Invalid input.";
+      results = ["Invalid input."];
     } else {
-      switch (type) {
-        case "sum":
-          result = this.sum(nums);
-          break;
-        case "average":
-          result = this.average(nums);
-          break;
-        case "mode":
-          result = this.mode(nums);
-          break;
-        default:
-          break;
-      }
+      results = this.getResults(nums, types);
     }
-
-    this.setState({ result });
+    this.setState({ results });
   };
 
   parseInput = (input) => {
@@ -86,24 +101,23 @@ class App extends React.Component {
     return nums && nums.every((n) => this.isNumber(n));
   };
 
-  calculateResult = (nums, type) => {};
-
   render() {
-    const { result } = this.state;
+    const { results } = this.state;
     return (
       <div className="App">
         <h1>Enter each number in the array, separated by a ','</h1>
         <form onSubmit={this.handleSubmit}>
           <input type="text" onChange={this.handleInputChange} />
-          <select onChange={this.handleSelectChange}>
-            <option value=""></option>
+          <select multiple onChange={this.handleSelectChange}>
             <option value="sum">sum</option>
             <option value="average">average</option>
             <option value="mode">mode</option>
           </select>
           <button type="submit">Calculate</button>
         </form>
-        <p>{result}</p>
+        {results.map((r, i) => (
+          <p key={r + i}>{r}</p>
+        ))}
       </div>
     );
   }
