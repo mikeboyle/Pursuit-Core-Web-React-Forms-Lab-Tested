@@ -21,8 +21,8 @@ Switching the select to `mode` and clicking the button again would replace that 
 | 1     | average   | 1              |
 | 1     | mode      | 1              |
 | 1     | sum       | 1              |
-| 1,3,5 | average   | 2              |
-| 1,3,5 | mode      | 3              |
+| 1,3,5 | average   | 3              |
+| 1,3,5 | mode      | 1              |
 | 1,3,5 | sum       | 9              |
 |       | \*        | Invalid input. |
 | apple | \*        | Invalid input. |
